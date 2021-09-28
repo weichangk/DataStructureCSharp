@@ -67,12 +67,39 @@ namespace LinkedList
 
         public T Delete(int index)
         {
-            throw new NotImplementedException();
+            T tmp = default(T);
+            if (IsEmpty())
+            {
+                throw new Exception("List is empty");
+            }
+            if (index < 0 || index > _last)
+            {
+                throw new Exception("Delete index is error");
+            }
+
+            if (index == _last)
+            {
+                tmp = _data[index];
+            }
+            else
+            {
+                tmp = _data[index];
+                for (int i = index; i < _last; i++)
+                {
+                    _data[index] = _data[index + 1];//左移 时间复杂度为O(n)。
+                }
+            }
+            _last--;
+            return tmp;
         }
 
         public T GetElem(int index)
         {
-            throw new NotImplementedException();
+            if (IsEmpty() || (index < 0) || (index > _last))
+            {
+                throw new Exception("List is empty or index is error");
+            }
+            return _data[index];
         }
 
         public int GetLenght()
@@ -86,6 +113,24 @@ namespace LinkedList
             {
                 throw new Exception("List is full");
             }
+            if (index < 0 || index > _last + 1)
+            {
+                throw new Exception("Insert index is error");
+            }
+
+            if (index == _last + 1)
+            {
+                _data[index] = item;
+            }
+            else
+            {
+                for (int i = _last; i > index - 1; i--)
+                {
+                    _data[i + 1] = _data[i];//后移 时间复杂度为O(n)。
+                }
+                _data[index] = item;
+            }
+            _last ++;
         }
 
         public bool IsEmpty()
@@ -99,7 +144,18 @@ namespace LinkedList
         }
         public int Locate(T value)
         {
-            throw new NotImplementedException();
+            if (IsEmpty())
+            {
+                throw new Exception("List is empty");
+            }
+            for (int i = 0; i <= _last; i++)//时间复杂度为O(n)。
+            {
+                if (value.Equals(_data[i]))
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }
